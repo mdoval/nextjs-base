@@ -3,7 +3,7 @@ interface IUsuario {
     createdAt?: Date
     updatedAt?: Date
     email?: string
-    name?: string
+    nombre?: string
     password?: string
     empresa?: string
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import registrarUsuario from "@/utils/Usuarios";
+import registrarUsuario from "@/utils/usuarios";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
@@ -30,7 +30,7 @@ const RegisterForm = () => {
         const usuario: IUsuario = {
           email: email,
           password: password,
-          name: nombre,
+          nombre: nombre,
           empresa: empresa
         }
         const nuevoUsuario = await registrarUsuario(usuario)      

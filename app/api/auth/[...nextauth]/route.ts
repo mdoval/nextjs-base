@@ -11,10 +11,9 @@ const handler = NextAuth({
           // e.g. domain, username, password, 2FA token, etc.
           // You can pass any HTML attribute to the <input> tag through the object.
           credentials: {
-            email: { label: "Email", type: "text", placeholder: "jsmith" },
-            password: { label: "Password", type: "password" }
           },
-          async authorize(credentials, req) {
+          async authorize(credentials: Record<never,string> | undefined, req) {
+            //console.log(credentials)
             // You need to provide your own logic here that takes the credentials
             // submitted and returns either a object representing a user or value
             // that is false/null if the credentials are invalid.
@@ -22,23 +21,28 @@ const handler = NextAuth({
             // You can also use the `req` object to obtain additional parameters
             // (i.e., the request IP address)
         
-            /*const res = await fetch("/your/endpoint", {
+            const res = await fetch("http://localhost:3000/api/usuarios/login", {
               method: 'POST',
               body: JSON.stringify(credentials),
               headers: { "Content-Type": "application/json" }
             })
+            
             const user = await res.json()
-            */
-            const user = { id: "1", name: "J Smith", email: "jsmith@example.com" }
+            console.log(user)
+            //const user = { id: "1", name: "Esto es una prueba", email: "testing@martin.com.ar" }
             // If no error and we have user data, return it
             //if (res.ok && user) {
-            return user
+            if(user) return user
+            else return null
             //}
             // Return null if user data could not be retrieved
             //return null
           }
         })
-      ]
+      ],
+      pages: {
+        signIn: '/',
+      }
 })
 
 export { handler as GET, handler as POST }
