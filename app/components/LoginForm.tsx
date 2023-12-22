@@ -2,13 +2,16 @@
 
 import { signIn } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
 const LoginForm = () => {
+  const router = useRouter()
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [errorEmail, setErrorEmail] = useState<string>("");
   const [errorPassword, setErrorPassword] = useState<string>("");
+  const [errorLogin, setErrorLogin] = useState<string>("");
 
   const handleClickLogin = async () => {
     if (!email) setErrorEmail("Debe colocar un Email");
@@ -16,21 +19,27 @@ const LoginForm = () => {
     if (!password) setErrorPassword("Debe colocar una Contraseña");
     else setErrorPassword("");
 
-    try {
-      const res = await signIn("credentials", {
-        email,
-        password,
-        redirect: true,
-        callbackUrl: "/dashboard"
-      });
+    if (email && password) {
+      try {
+        const res = await signIn("credentials", {
+          email,
+          password,
+          redirect: false,
+          //callbackUrl: "/dashboard",
+        });
 
-      if (res?.error) {
-        console.log("Credenciales Invalidas")
-        //setError("Invalid Credentials");
-        return;
+//        console.log(`res : ${JSON.stringify(res)}`)
+
+        if (!res?.ok) {
+          setErrorLogin("Credenciales Invalidas");
+          return;
+        } else {
+          router.replace("/dashboard")
+        }
+      } catch (error) {
+        console.log(error);
+        setErrorLogin("Credenciales Invalidas");
       }
-    } catch (error) {
-      console.log(error);
     }
   };
 
@@ -81,6 +90,13 @@ const LoginForm = () => {
               </span>
             )}
           </div>
+          <div className="label">
+            {errorLogin === "" ? (
+              ""
+            ) : (
+              <span className="label-text-alt text-red-600">{errorLogin}</span>
+            )}
+          </div>
         </label>
       </div>
       <div className="w-full text-center">
@@ -88,6 +104,7 @@ const LoginForm = () => {
           Ingresar
         </button>
       </div>
+
       <div className="w-full text-right m-4 p-2">
         <span>Aun no tiene cuenta ? </span>
         <Link href={"/registro"} className="text-blue-500">

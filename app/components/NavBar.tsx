@@ -1,6 +1,7 @@
 'use client'
 
 import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import React from "react";
 
 const NavBar = () => {
@@ -54,7 +55,7 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                src={session?.user?.image as string}
               />
             </div>
           </div>
@@ -63,9 +64,9 @@ const NavBar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a className="justify-between">
+              <Link className="justify-between" href={"/dashboard/user/profile"}>
                 <b>{session?.user?.email}</b>
-              </a>
+              </Link>
             </li>
             <li>
               <button onClick={() => signOut()}>Cerrar Session</button>

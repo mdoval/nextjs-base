@@ -13,7 +13,7 @@ export async function POST(req: Request) {
         },
       });
 
-      if(usuario) return NextResponse.json({ id: usuario.id, name: usuario.name, email: usuario.email })
+      if(usuario) return NextResponse.json({ id: usuario.id, name: usuario.name, email: usuario.email, image: usuario.avatar })
       else return NextResponse.json(null)
     
 }

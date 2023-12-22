@@ -7,3 +7,7 @@ interface IUsuario {
     password?: string
     empresa?: string
 }
+
+interface IError {
+    message: string
+}

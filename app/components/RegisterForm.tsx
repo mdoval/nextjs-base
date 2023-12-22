@@ -1,6 +1,6 @@
 "use client";
 
-import registrarUsuario from "@/utils/usuarios";
+import { registrarUsuario } from "@/utils/registrarUsuario";
 import { useRouter } from "next/navigation";
 import React, { ChangeEvent, useState } from "react";
 
@@ -25,7 +25,7 @@ const RegisterForm = () => {
     if (!empresa) setErrorEmpresa("Debe colocar una empresa");
     else setErrorEmpresa("");
     if (email && password && nombre && empresa) {
-      console.log("Registrando Cliente")
+      //console.log("Registrando Cliente")
       try {
         const usuario: IUsuario = {
           email: email,
@@ -33,11 +33,10 @@ const RegisterForm = () => {
           nombre: nombre,
           empresa: empresa
         }
-        const nuevoUsuario = await registrarUsuario(usuario)      
+          const res = await registrarUsuario(usuario)      
         router.push("/registrado")
-        console.log(nuevoUsuario)
       } catch(error) {
-        console.log(error)
+        console.log(`Error capturado desde el formulario: ${error}`)        
       }
     }
   };
