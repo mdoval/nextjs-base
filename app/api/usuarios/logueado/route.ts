@@ -5,14 +5,12 @@ import { authOptions } from "@/utils/authOptions";
 
 export async function GET(req: Request) {
   const session = await getServerSession(authOptions);
-  console.log(session)
+  const emailLogueado = session?.user?.email as string
   try {
-    const usuario = prisma.usuario.findUnique({
-      where: {
-        email: "martindoval@gmail.com",
-      },
-    });
-    console.log(usuario)
+   const usuario = await prisma.usuario.findUnique({
+    where: { email: emailLogueado}
+   })
+    //console.log(usuario)
     return NextResponse.json(usuario);
   } catch (error) {
     console.log(error);

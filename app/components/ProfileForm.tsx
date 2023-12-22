@@ -1,6 +1,7 @@
 'use client'
 
-import React from "react";
+import { Usuario } from "@prisma/client";
+import React, { FC } from "react";
 
 const ProfileForm = () => {
   return (
