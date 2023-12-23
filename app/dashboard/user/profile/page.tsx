@@ -4,7 +4,6 @@ import React from 'react'
 
 const UserProfile = async () => {
   const user = await getUsuarioLogueado()
-  console.log(user)  
   
   return (
     <div className='p-10 flex flex-col items-center space-y-4'>

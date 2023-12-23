@@ -7,6 +7,7 @@ export const getUsuarioLogueado = async () => {
     headers: {
       Cookie: cookies().toString()        
     },
+    cache: 'no-store'
   });
   const usuarioLogueado = await data.json()
   return usuarioLogueado;

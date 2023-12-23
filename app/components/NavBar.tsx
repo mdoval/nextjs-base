@@ -64,9 +64,9 @@ const NavBar = () => {
             className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <Link className="justify-between" href={"/dashboard/user/profile"}>
+              <a className="justify-between" href={"/dashboard/user/profile"}>
                 <b>{session?.user?.email}</b>
-              </Link>
+              </a>
             </li>
             <li>
               <button onClick={() => signOut()}>Cerrar Session</button>
