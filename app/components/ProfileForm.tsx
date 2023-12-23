@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import React, { FC, useState } from "react";
 import Modal from "./Modal";
 import passwordChange from "@/utils/passwordChange";
+import uploadPhoto from "@/utils/uploadPhoto";
 
 interface Props {
   user: any;
@@ -13,10 +14,12 @@ interface Props {
 const ProfileForm: FC<Props> = ({ user }) => {
   const router = useRouter();
   const [nombre, setNombre] = useState<string>(user.name);
-  const [hidden, setHidden] = useState<boolean>(true);
+  const [hiddenPassword, setHiddenPassword] = useState<boolean>(true);
+  const [hiddenFoto, setHiddenFoto] = useState<boolean>(true);
   const [pass1, setPass1] = useState<string>("");
   const [pass2, setPass2] = useState<string>("");
   const [errorPass, setErrorPass] = useState<string>("");
+  const [file, setFile] = useState<File>();
 
   const handleUpdate = async () => {
     try {
@@ -52,6 +55,22 @@ const ProfileForm: FC<Props> = ({ user }) => {
     }
   };
 
+  const handleSubirFoto = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    if (!file) return
+    try {
+      const data = new FormData()
+      data.set('file', file)
+      data.set('id',user.id)
+
+      const res = await uploadPhoto(data)
+      // handle the error
+    } catch (e: any) {
+      // Handle errors here
+      console.error(e)
+    }
+  }
+
   return (
     <div className="w-full h-full flex flex-col bg-white border shadow-lg p-5">
       <h1>Perfil</h1>
@@ -60,7 +79,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
         <div className="w-24 rounded-full">
           <img src={user.avatar} />
         </div>
-        <button className="text-blue-600">Cambiar Foto</button>
+        <button className="text-blue-600" onClick={() => setHiddenFoto(false)}>Cambiar Foto</button>
       </div>
       <div>
         <label className="form-control w-full max-w-xs">
@@ -91,7 +110,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
         </label>
       </div>
       <div>
-        <button className="m-4 text-blue-600" onClick={() => setHidden(false)}>
+        <button className="m-4 text-blue-600" onClick={() => setHiddenPassword(false)}>
           Cambiar Contraseña
         </button>
       </div>
@@ -114,7 +133,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
           Guardar
         </button>
       </div>
-      <Modal hidden={hidden}>
+      <Modal hidden={hiddenPassword}>
         <div className="flex flex-col">
           <div>
             <label className="form-control w-full max-w-xs">
@@ -153,7 +172,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
             </button>
             <button
               className="btn btn-error w-1/3"
-              onClick={() => setHidden(true)}
+              onClick={() => setHiddenPassword(true)}
             >
               Cancelar
             </button>
@@ -166,6 +185,16 @@ const ProfileForm: FC<Props> = ({ user }) => {
             )}
           </div>
         </div>
+      </Modal>
+      <Modal hidden={hiddenFoto}>
+        <form onSubmit={handleSubirFoto} encType="multipart/form-data" >
+          <input
+            type="file"
+            name="file"
+            onChange={(e) => setFile(e.target.files?.[0])}
+          />
+          <button type="submit" className="btn btn-primary">Enviar Foto</button>
+        </form>
       </Modal>
     </div>
   );
