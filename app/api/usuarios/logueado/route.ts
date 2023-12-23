@@ -8,7 +8,10 @@ export async function GET(req: Request) {
   const emailLogueado = session?.user?.email as string
   try {
    const usuario = await prisma.usuario.findUnique({
-    where: { email: emailLogueado}
+    where: { email: emailLogueado},
+    include: {
+      empresa: true
+    }
    })
     //console.log(usuario)
     return NextResponse.json(usuario);
