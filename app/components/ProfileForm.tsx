@@ -64,6 +64,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
       data.set('id',user.id)
 
       const res = await uploadPhoto(data)
+      router.push("/dashboard")
       // handle the error
     } catch (e: any) {
       // Handle errors here
@@ -187,7 +188,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
         </div>
       </Modal>
       <Modal hidden={hiddenFoto}>
-        <form onSubmit={handleSubirFoto} encType="multipart/form-data" >
+        <form onSubmit={handleSubirFoto}>
           <input
             type="file"
             name="file"

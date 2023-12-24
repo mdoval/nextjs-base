@@ -3,9 +3,6 @@ export const uploadPhoto = async (data: FormData | undefined) => {
     try {
         const res = await fetch(url, {
             method: 'POST',
-            headers: {
-                "Content-Type": "application/json",
-              },      
             body: data
           })
       return res;

@@ -2,9 +2,10 @@ import { writeFile } from "fs/promises";
 import { NextRequest, NextResponse } from "next/server";
 import prisma from "@/db/prisma";
 
-export async function POST(req: NextRequest) {
+export async function POST(req: Request) {
   const data = await req.formData();
-  const userId: number = data.get("id") as unknown as number
+
+  const userId = data.get("id") as unknown as string
   const file: File | null = data.get("file") as unknown as File;
 
   if (!file) {
@@ -14,14 +15,14 @@ export async function POST(req: NextRequest) {
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
 
-  const path = `/public/images/${file.name}`
+  const path = `public/images/${file.name}`
   await writeFile(path, buffer)
   console.log(`open ${path} to see the uploaded file`)
     
   try {
     const newUsuario = await prisma.usuario.update({
-      where: { id: userId },
-      data: { avatar: path },
+      where: { id: parseInt(userId) },
+      data: { avatar: `http://localhost:3000/images/${file.name}`},
     });
     return NextResponse.json(newUsuario);
   } catch (error) {
@@ -34,5 +35,6 @@ export async function POST(req: NextRequest) {
       }
     }
 */
+    return NextResponse.json(error);
   }
 }
