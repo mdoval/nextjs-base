@@ -17,8 +17,7 @@ export async function POST(req: Request) {
 
   const path = `public/images/${file.name}`
   await writeFile(path, buffer)
-  console.log(`open ${path} to see the uploaded file`)
-    
+//  console.log(`open ${path} to see the uploaded file`)
   try {
     const newUsuario = await prisma.usuario.update({
       where: { id: parseInt(userId) },
@@ -27,14 +26,6 @@ export async function POST(req: Request) {
     return NextResponse.json(newUsuario);
   } catch (error) {
     console.log(error);
-/*    if (error instanceof PrismaClientKnownRequestError) {
-      if (error.code === "P2002") {
-        //console.log('Este correo ya se encuentra registrado')
-        throw (new Error(`Error en la Actualizacion del usuario:`).name =
-          "Email Duplicado");
-      }
-    }
-*/
     return NextResponse.json(error);
   }
 }

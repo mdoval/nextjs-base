@@ -6,6 +6,7 @@ import React, { FC, useState } from "react";
 import Modal from "./Modal";
 import passwordChange from "@/utils/passwordChange";
 import uploadPhoto from "@/utils/uploadPhoto";
+import { useSession } from "next-auth/react";
 
 interface Props {
   user: any;
@@ -65,6 +66,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
 
       const res = await uploadPhoto(data)
       router.push("/dashboard")
+      router.refresh()
       // handle the error
     } catch (e: any) {
       // Handle errors here

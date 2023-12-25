@@ -1,16 +1,15 @@
 'use client'
 
 import { signOut, useSession } from "next-auth/react";
-import Link from "next/link";
-import React from "react";
+import React, { FC } from "react";
 
-const NavBar = () => {
-  const { data: session } = useSession()
-
+const NavBar: FC<any> = ({usuario}) => {
+//  const { data: session } = useSession()
+  
   return (
     <div className="navbar bg-base-100 border shadow-lg">
       <div className="flex-1">
-        <a className="btn btn-ghost text-xl">Next Base</a>
+        <a className="btn btn-ghost text-xl" href="/dashboard">Next Base</a>
       </div>
       <div className="flex-none">
         <div className="dropdown dropdown-end">
@@ -55,7 +54,7 @@ const NavBar = () => {
             <div className="w-10 rounded-full">
               <img
                 alt="Tailwind CSS Navbar component"
-                src={session?.user?.image as string}
+                src={usuario.avatar}
               />
             </div>
           </div>
@@ -65,7 +64,7 @@ const NavBar = () => {
           >
             <li>
               <a className="justify-between" href={"/dashboard/user/profile"}>
-                <b>{session?.user?.email}</b>
+                <b>{usuario.email}</b>
               </a>
             </li>
             <li>
