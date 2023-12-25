@@ -193,6 +193,7 @@ const ProfileForm: FC<Props> = ({ user }) => {
         <form onSubmit={handleSubirFoto}>
           <input
             type="file"
+            accept=".jpg, .png"
             name="file"
             onChange={(e) => setFile(e.target.files?.[0])}
           />
